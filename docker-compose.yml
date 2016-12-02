@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    nginx:
+        image: ssgreg/nginx-le:latest
+        container_name: nginx-iris
+        hostname: nginx-iris
+        restart: always
+
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+
+
+        volumes:
+            - ./etc/nginx/ssl:/etc/nginx/ssl
+            - ./etc/nginx/conf.d:/etc/nginx/conf.d
+            - /srv/www/iri.so:/srv/www/iri.so
+
+        ports:
+            - "80:80"
+            - "443:443"
+
+        environment:
+            - OWNER_EMAIL=me@ssgreg.com
+            - OWNER_DOMAIN=iri.so
+
